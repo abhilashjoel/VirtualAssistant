@@ -115,7 +115,7 @@ public class Handler_AI {
         r.update(Res);
         MainActivity ma = (MainActivity)activity;
 
-        ma.speak(Res);
+        TTS.speak(Res);
     }
 
     public static Response Parse(String s) {

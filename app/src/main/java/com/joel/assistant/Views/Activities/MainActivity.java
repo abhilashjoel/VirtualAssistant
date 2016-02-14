@@ -32,14 +32,6 @@ public class MainActivity extends AppCompatActivity implements Frag_Request.Comm
 
     private void initTTS() {
 
-        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status == TextToSpeech.SUCCESS){
-                    tts.setLanguage(Locale.US);
-                }
-            }
-        });
 
 
 
@@ -74,13 +66,5 @@ public class MainActivity extends AppCompatActivity implements Frag_Request.Comm
         Handler_AI.process_update(s);
     }
 
-    public void speak(String s){
-        tts.speak(s,TextToSpeech.QUEUE_FLUSH,null);
-    }
 
-    @Override
-    public void stopTTS() {
-        tts.stop();
-
-    }
 }

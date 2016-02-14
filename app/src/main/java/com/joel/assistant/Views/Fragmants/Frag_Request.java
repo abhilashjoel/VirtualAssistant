@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.joel.assistant.R;
+import com.joel.assistant.utils.TTS;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -34,7 +35,7 @@ public class Frag_Request extends Fragment {
     @Bind(R.id.Request_ip) EditText Request_ip;
     @OnClick(R.id.Request_ip)
     void Req_Onclick(){
-        parentActivity.stopTTS();
+        TTS.stopTTS();
     }
     @Bind(R.id.speech)
     FloatingActionButton fab;
@@ -80,7 +81,7 @@ public class Frag_Request extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                parentActivity.stopTTS();
+                TTS.stopTTS();
                 PromptSpeechInput();
             }
         });
@@ -135,7 +136,7 @@ public class Frag_Request extends Fragment {
 
     public interface Communicator{
         public void Process(String s);
-        public void stopTTS();
+//        public void stopTTS();
     }
 
 }
