@@ -12,7 +12,7 @@ public class TTS {
 
     public static TextToSpeech tts;
 
-    static void initTTS(Context ct) {
+    public static void initTTS(Context ct) {
         tts = new TextToSpeech(ct, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -24,7 +24,8 @@ public class TTS {
     }
 
     public static void speak(String s){
-        tts.speak(s, TextToSpeech.QUEUE_FLUSH,null);
+        tts.speak(String.valueOf(s.subSequence(0,s.length())), TextToSpeech.QUEUE_FLUSH, null,"");
+//        tts.s
     }
 
     public static void stopTTS() {

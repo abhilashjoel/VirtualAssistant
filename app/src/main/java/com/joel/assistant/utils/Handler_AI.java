@@ -19,6 +19,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import com.joel.assistant.Network.AsyncHTTP;
+import com.joel.assistant.Network.JsonResponseHandler;
+import com.joel.assistant.Network.param;
 import com.joel.assistant.R;
 import com.joel.assistant.Views.Activities.MainActivity;
 import com.joel.assistant.Views.Fragmants.Response_Text;
@@ -28,20 +31,12 @@ import com.joel.assistant.Views.Fragmants.Response_Text;
  */
 public class Handler_AI {
 
-    static FragmentTransaction FT_Resp = null;
-    static FragmentManager FM_Resp = null;
     static Context context;
     static Activity activity;
     static OkHttpClient oCli = new OkHttpClient();
+    static String session_ID = "";
 
 
-    public static void setTransaction(FragmentTransaction ft) {
-        FT_Resp = ft;
-    }
-
-    public static void setFragmentManager(FragmentManager fm) {
-        FM_Resp = fm;
-    }
 
     public static void setActivity(Activity a) {
         activity = a;
@@ -56,96 +51,69 @@ public class Handler_AI {
         });
     }
 
-    public static void process_update(final String s) {
-        new Thread(new Runnable() {
+
+    public static void process_update(final String s){
+
+        param req_p = buildParam_AI(s);
+        String url = Constants.AI_HOST+Constants.AI_URL_SEG;
+
+        AsyncHTTP.get(req_p, new JsonResponseHandler() {
             @Override
-            public void run() {
-                Response res = Parse(s);
-                String rt = "Error....!!!";
+            public void onSuccess(int statusCode, JSONObject json_obj) {
+                super.onSuccess(statusCode, json_obj);
 
-
+                String text = "This is beyond me..";
+                System.out.println(json_obj.toString());
                 try {
+                    JSONObject res = json_obj.getJSONObject("result");
+                    if(res.has("speech"))
+                        text = res.getString("speech");
+                    else if(res.has("fulfillment"))
+                        text = res.getString("fulfillment");
 
-                    ResponseBody r = res.body();
-                    String jResp = r.string();
-
-                    Log.i("Json Response for Query", jResp);
-
-                    JSONObject j = new JSONObject(jResp);
-
-                    JSONObject result = j.getJSONObject("result");
-                    if (result.has("speech"))
-                        rt = result.getString("speech");
-                    else if (result.has("fulfillment"))
-                        if (result.getJSONObject("fulfillment").has("speech"))
-                            rt = result.getJSONObject("fulfillment").getString("speech");
-
-                    if (rt.isEmpty())
-                        rt = "Try Another QUERY...!!!";
-                    System.out.println("Final Response :  " + rt);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
+                } catch (Exception e) {
+                    text = "Error in parsing json..";
                     e.printStackTrace();
                 }
 
-                final String finalRt = rt;
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateText(finalRt);
-                    }
-                });
-
+                ResponseHandler_AI.TextResponse(text,text);
 
             }
-        }).start();
-    }
 
-    public static void updateText(String Res) {
-
-        FragmentWithType Resp_FRAG = (FragmentWithType) FM_Resp.findFragmentByTag(Constants.Response);
-
-        if (Resp_FRAG.isText() != true) {
-            Resp_FRAG = new Response_Text();
-            FT_Resp.replace(R.id.Response_Fragment_main, Resp_FRAG, Constants.Response);
-        }
-        Response_Text r = (Response_Text) Resp_FRAG;
-        r.update(Res);
-        MainActivity ma = (MainActivity)activity;
-
-        TTS.speak(Res);
-    }
-
-    public static Response Parse(String s) {
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme("https")
-                .host(Constants.AI_HOST)
-                .addPathSegment(Constants.AI_URL_SEG)
-                .addQueryParameter("query", s)
-                .addQueryParameter("lang", "en")
-                .build();
-
-        Request req = new Request.Builder()
-                .url(url)
-                .get()
-                .addHeader("Authorization", Constants.AI_AUTH)
-                .addHeader("ocp-apim-subscription-key", Constants.AI_SUBSCR_KEY)
-                .build();
-        Response res = null;
-
-        try {
-            res = oCli.newCall(req).execute();
-        } catch (IOException e) {
-            showToast("Connection Error....");
-            e.printStackTrace();
-        }
-
-        return res;
+            @Override
+            public void onFailure(int statusCode) {
+                super.onFailure(statusCode);
+                showToast("Error in Processing Your Query...");
+                ResponseHandler_AI.TextResponse("Error in Processing Your Query...","Error in Processing Your Query...");
+            }
+        });
 
 
     }
+
+    private static param buildParam_AI(String s) {
+
+        param p = new param();
+
+        p.setProtocol(Constants.AI_SCHEME);
+        p.setHost(Constants.AI_HOST);
+        p.setURLSegment(Constants.AI_URL_SEG);
+/*------------------    API.AI QUERY PARAMETERS     -----------------------------------------------*/
+        p.addParam("lang","en");
+        p.addParam("query",s);
+        p.addParam("timezone","Asia/Calcutta");
+        if(session_ID.isEmpty() != true)
+            p.addParam("sessionID",session_ID);
+
+
+/*----------------- API.AI AUTHENTICATION HEADERS   ----------------------------------------------*/
+        p.addHeader("Authorization",Constants.AI_AUTH);
+        p.addHeader("ocp-apim-subscription-key",Constants.AI_SUBSCR_KEY);
+
+        return p;
+    }
+
+
 
 
 }
