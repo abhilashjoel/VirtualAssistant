@@ -1,6 +1,7 @@
 package com.joel.assistant.utils;
 
 import android.content.Context;
+import android.os.Build;
 import android.speech.tts.TextToSpeech;
 
 import java.util.Locale;
@@ -23,8 +24,10 @@ public class TTS {
         });
     }
 
-    public static void speak(String s){
-        tts.speak(String.valueOf(s.subSequence(0,s.length())), TextToSpeech.QUEUE_FLUSH, null,"");
+    public static void speak(String s) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            tts.speak(String.valueOf(s.subSequence(0, s.length())), TextToSpeech.QUEUE_FLUSH, null, "");
+        }
 //        tts.s
     }
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import com.joel.assistant.utils.FragmentWithType;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class Response_Text extends FragmentWithType{
+public class Response_Text extends FragmentWithType {
 
     View root;
 
@@ -48,8 +49,9 @@ public class Response_Text extends FragmentWithType{
         return root;
     }
 
-    public void update(String s){
+    public void update(String s) {
         Response_Content.setText(s);
+        Log.i("Response_Text.update()", s);
     }
 
     @Override

@@ -5,13 +5,13 @@ package com.joel.assistant.Network;
  */
 public class AsyncHTTP {
 
-    public static void get(String url, param p, JsonResponseHandler j){
+    public static void get(String url, param p, JsonResponseHandler j) {
         p.setUrl(url);
-        AsyncHTTPGet g = new AsyncHTTPGet(url,j);
+        AsyncHTTPGet g = new AsyncHTTPGet(url, j);
         g.execute(p);
     }
 
-    public static void get(param p, JsonResponseHandler j){
+    public static void get(param p, JsonResponseHandler j) {
 //        p.setUrl(url);
         AsyncHTTPGet g = new AsyncHTTPGet(j);
         g.execute(p);

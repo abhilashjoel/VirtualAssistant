@@ -32,12 +32,12 @@ public class AsyncHTTPGet extends AsyncTask<param, Void, String> {
     Response res;
     static OkHttpClient oCli = new OkHttpClient();
 
-    AsyncHTTPGet(String url, JsonResponseHandler jh){
+    AsyncHTTPGet(String url, JsonResponseHandler jh) {
         URL = url;
         jHandler = jh;
     }
 
-    AsyncHTTPGet(JsonResponseHandler jh){
+    AsyncHTTPGet(JsonResponseHandler jh) {
         jHandler = jh;
     }
 
@@ -47,23 +47,23 @@ public class AsyncHTTPGet extends AsyncTask<param, Void, String> {
         param pa = params[0];
         boolean method;
 
-        HashMap<String,String> p = pa.getParams();
+        HashMap<String, String> p = pa.getParams();
         Iterator pi = p.entrySet().iterator();
 
-        HashMap<String,String> h = pa.getHeaders();
+        HashMap<String, String> h = pa.getHeaders();
         Iterator hi = h.entrySet().iterator();
 
 //        String URL = pa.getURL();
 
-        HashMap.Entry<String,String> item;
+        HashMap.Entry<String, String> item;
         HttpUrl.Builder urlX = new HttpUrl.Builder()
                 .scheme(pa.getProtocol())
                 .host(pa.getHost())
                 .addPathSegment(pa.URLSegment);
 
-        while(pi.hasNext()){
+        while (pi.hasNext()) {
             item = (HashMap.Entry) pi.next();
-            urlX.addQueryParameter(item.getKey(),item.getValue());
+            urlX.addQueryParameter(item.getKey(), item.getValue());
         }
 
         url = urlX.build();
@@ -72,9 +72,9 @@ public class AsyncHTTPGet extends AsyncTask<param, Void, String> {
                 .url(url)
                 .get();
 
-        while(hi.hasNext()){
+        while (hi.hasNext()) {
             item = (HashMap.Entry<String, String>) hi.next();
-            reqX.addHeader(item.getKey(),item.getValue());
+            reqX.addHeader(item.getKey(), item.getValue());
         }
 
         req = reqX.build();
@@ -98,7 +98,7 @@ public class AsyncHTTPGet extends AsyncTask<param, Void, String> {
     protected void onPostExecute(String body) {
         super.onPostExecute(body);
 
-        if(res.isSuccessful() == false){
+        if (res.isSuccessful() == false) {
             jHandler.onFailure(res.code());
             return;
         }
@@ -107,19 +107,17 @@ public class AsyncHTTPGet extends AsyncTask<param, Void, String> {
 //            String body = res.body().string();
             Object x = new JSONTokener(body).nextValue();
 
-            if(x instanceof JSONObject){
+            if (x instanceof JSONObject) {
                 jHandler.onSuccess(res.code(), (JSONObject) x);
-            }
-            else if(x instanceof JSONArray){
+            } else if (x instanceof JSONArray) {
                 jHandler.onSuccess(res.code(), (JSONArray) x);
-            }
-            else{
+            } else {
                 jHandler.onFailure(res.code());
-                Log.e("HTTP Request","JSON Object/ JSON Array was not found...");
+                Log.e("HTTP Request", "JSON Object/ JSON Array was not found...");
             }
 
         } catch (Exception e) {
-            Log.e("Http Response","Caught an Exception...");
+            Log.e("Http Response", "Caught an Exception...");
             e.printStackTrace();
             jHandler.onFailure(res.code());
         }

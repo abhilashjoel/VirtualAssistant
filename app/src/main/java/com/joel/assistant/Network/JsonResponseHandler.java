@@ -11,19 +11,19 @@ import org.json.JSONObject;
 public abstract class JsonResponseHandler {
     static String tag = "HTTP Response";
 
-    public void onSuccess(int statusCode, JSONObject json_obj){
-        Log.i(tag,"HTTP Request was Successful");
-        Log.i(tag,"Status Code - "+statusCode);
+    public void onSuccess(int statusCode, JSONObject json_obj) {
+        Log.i(tag, "HTTP Request was Successful");
+        Log.i(tag, "Status Code - " + statusCode);
     }
 
-    public void onSuccess(int statusCode, JSONArray json_arr){
-        Log.i(tag,"HTTP Request was Successful");
-        Log.i(tag,"Status Code - "+statusCode);
+    public void onSuccess(int statusCode, JSONArray json_arr) {
+        Log.i(tag, "HTTP Request was Successful");
+        Log.i(tag, "Status Code - " + statusCode);
     }
 
-    public void onFailure(int statusCode){
-        Log.i(tag,"HTTP Request FAILED...");
-        Log.i(tag,"Status Code - "+statusCode);
+    public void onFailure(int statusCode) {
+        Log.i(tag, "HTTP Request FAILED...");
+        Log.i(tag, "Status Code - " + statusCode);
     }
 
 }

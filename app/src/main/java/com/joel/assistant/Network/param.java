@@ -14,24 +14,25 @@ public class param {
     String URLSegment;
     String url;
     String protocol;
+
     public param() {
         parameter = new HashMap<String, String>();
         header = new HashMap<String, String>();
     }
 
-    public void setProtocol(String p){
+    public void setProtocol(String p) {
         protocol = p;
     }
 
-    public void setHost(String h){
+    public void setHost(String h) {
         host = h;
     }
 
-    public void setURLSegment(String seg){
+    public void setURLSegment(String seg) {
         URLSegment = seg;
     }
 
-    public void setUrl(String url){
+    public void setUrl(String url) {
         this.url = url;
     }
 
@@ -44,7 +45,7 @@ public class param {
     }
 
 
-    public String getURL(){
+    public String getURL() {
         return url;
     }
 
@@ -56,15 +57,15 @@ public class param {
         return header;
     }
 
-    public String getHost(){
+    public String getHost() {
         return host;
     }
 
-    public String getURLSegment(){
+    public String getURLSegment() {
         return URLSegment;
     }
 
-    public String getProtocol(){
+    public String getProtocol() {
         return protocol;
     }
 }

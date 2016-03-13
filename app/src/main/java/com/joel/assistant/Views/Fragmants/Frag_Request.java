@@ -34,11 +34,14 @@ public class Frag_Request extends Fragment {
     View root;
     Communicator parentActivity;
 
-    @Bind(R.id.Request_ip) EditText Request_ip;
+    @Bind(R.id.Request_ip)
+    EditText Request_ip;
+
     @OnClick(R.id.Request_ip)
-    void Req_Onclick(){
+    void Req_Onclick() {
         TTS.stopTTS();
     }
+
     @Bind(R.id.speech)
     FloatingActionButton fab;
 
@@ -64,9 +67,7 @@ public class Frag_Request extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_frag__request, container, false);
-        ButterKnife.bind(this,root);
-
-
+        ButterKnife.bind(this, root);
 
 
         Request_ip.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -111,32 +112,32 @@ public class Frag_Request extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int reqC, int resC, Intent data){
+    public void onActivityResult(int reqC, int resC, Intent data) {
 
-        super.onActivityResult(reqC,resC,data);
+        super.onActivityResult(reqC, resC, data);
 
-        if(data == null)
+        if (data == null)
             return;
 
         final ArrayList<String> result = data
                 .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-        if(result.isEmpty() == true)
+        if (result.isEmpty() == true)
             return;
 
-        if(result.get(0).isEmpty() == true)
+        if (result.get(0).isEmpty() == true)
             return;
         parentActivity.Process(result.get(0));
         Request_ip.setText(result.get(0));
-        System.out.println("----------------------Recogniosed Text :    "+result.get(0));
+        System.out.println("----------------------Recogniosed Text :    " + result.get(0));
     }
 
 
-    public void setCommunicator(Communicator c){
+    public void setCommunicator(Communicator c) {
         parentActivity = c;
     }
 
-    public interface Communicator{
+    public interface Communicator {
         public void Process(String s);
 //        public void stopTTS();
     }

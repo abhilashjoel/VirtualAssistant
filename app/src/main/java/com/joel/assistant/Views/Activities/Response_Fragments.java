@@ -24,18 +24,18 @@ public class Response_Fragments {
     public static Response_Text tRes;// = null;
 
 
-    public static void setActivity(MainActivity a){
+    public static void setActivity(MainActivity a) {
         activity = a;
     }
 
 
     public static void initFragments() throws Exception {
 
-        Log.e("Fragment Store","In INIT Frag..");
+        Log.e("Fragment Store", "In INIT Frag..");
 
 
-        if(activity == null){
-            Log.e("Fragment Store","Activity reference is null");
+        if (activity == null) {
+            Log.e("Fragment Store", "Activity reference is null");
             throw new NullReferenceException();
         }
         fManager = activity.getFragmentManager();
@@ -57,32 +57,31 @@ public class Response_Fragments {
     }
 
 
-    public static Response_Text SetTextResponse(){
-        if(fManager.findFragmentByTag(Constants.Response_Text) != null) {
-         System.out.println("Found Text Fragment..... From Tags...");
+    public static Response_Text SetTextResponse() {
+        if (fManager.findFragmentByTag(Constants.Response_Text) != null) {
+            System.out.println("Found Text Fragment..... From Tags...");
             return tRes;
         }
         FragmentTransaction FT_Resp = fManager.beginTransaction();
-        if(tRes == null){
-            Log.i("SetTextRespFrag","Found Null Reference... Creating a new Fragment");
+        if (tRes == null) {
+            Log.i("SetTextRespFrag", "Found Null Reference... Creating a new Fragment");
             tRes = new Response_Text();
-        }
-        else{
+        } else {
             System.out.println("Obj Already Exists..... oohhh");
         }
 
-        if(FT_Resp.isEmpty())
+        if (FT_Resp.isEmpty())
             FT_Resp.add(R.id.Response_Fragment_main, tRes, Constants.Response_Text);
         else
-            FT_Resp.replace(R.id.Response_Fragment_main,tRes,Constants.Response_Text);
+            FT_Resp.replace(R.id.Response_Fragment_main, tRes, Constants.Response_Text);
         FT_Resp.commit();
 
         return tRes;
     }
 
 
-    static class NullReferenceException extends Exception{
-        NullReferenceException(){
+    static class NullReferenceException extends Exception {
+        NullReferenceException() {
             super("Activity reference was NULL");
         }
 
