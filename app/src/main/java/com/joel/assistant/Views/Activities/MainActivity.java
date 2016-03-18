@@ -5,6 +5,7 @@ import android.content.Context;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.joel.assistant.R;
 
@@ -13,12 +14,13 @@ import com.joel.assistant.utils.Handler_AI;
 import com.joel.assistant.utils.ResponseHandler_AI;
 import com.joel.assistant.utils.StateProvider;
 import com.joel.assistant.utils.TTS;
+import com.joel.assistant.utils.ContactsHandler.contactsHandler;
+import com.joel.assistant.utils.MediaHandler.mediaTest;
 
 public class MainActivity extends AppCompatActivity implements Frag_Request.Communicator {
 
     TextToSpeech tts;
     FragmentManager m;
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements Frag_Request.Comm
 
 //        getActionBar().hide();
         StateProvider.setContext(getApplicationContext());
+        StateProvider.setActivity(this);
 
         initTTS();
         TTS.initTTS(getApplicationContext());
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements Frag_Request.Comm
 
         Handler_AI.updateSession("Call me Joel");
 
+        //       ResponseHandler_AI.TextResponse("What can I do for you");
 
     }
 

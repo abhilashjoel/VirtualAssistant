@@ -10,14 +10,23 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import com.joel.assistant.utils.StateProvider;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 public class AppInfo {
 
+    private static AppInfo provider = new AppInfo();
     HashMap<String, String> app;
     Context context;
+
+    private AppInfo() {
+        context = StateProvider.getContext();
+        app = new HashMap<String, String>();
+        initAppList();
+    }
 
     AppInfo(Context ct) {
         app = new HashMap<String, String>();
@@ -26,13 +35,19 @@ public class AppInfo {
     }
 
 
-    public void getPackageName(String label, appHandler ah) {
-        if (app.containsKey(label))
-            ah.onSuccess(app.get(label));
+    public static void getPackageName(String label, appHandler ah) {
+        if (provider.app.containsKey(label))
+            ah.onSuccess(provider.app.get(label));
         else
             ah.onFailure(label);
     }
 
+    public static void LaunchApp(String name, appHandler appHandler) {
+        if (provider.app.containsKey(name.toLowerCase()))
+            appHandler.onSuccess(provider.app.get(name.toLowerCase()));
+        else
+            appHandler.onFailure(name);
+    }
 
     private void initAppList() {
         int flag = PackageManager.GET_META_DATA |
@@ -55,16 +70,8 @@ public class AppInfo {
             label = pm.getApplicationLabel(a).toString();
             packageName = a.packageName;
             app.put(label.toLowerCase(), packageName);
-            Log.i(label, packageName);
+//            Log.i(label, packageName);
         }
-    }
-
-    public void LaunchApp(String name, appHandler appHandler) {
-//        app.
-        if (app.containsKey(name.toLowerCase()))
-            appHandler.onSuccess(app.get(name.toLowerCase()));
-        else
-            appHandler.onFailure(name);
     }
 }
 

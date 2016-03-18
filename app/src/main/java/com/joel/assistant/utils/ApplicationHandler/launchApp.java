@@ -18,31 +18,15 @@ import org.json.JSONObject;
 
 public class launchApp implements ActionHandler {
 
-
-    @Override
-    public void performAction(JSONObject res) {
-
-        Log.e("Action Handler", "Application Handler Handler");
-        try {
-            String app_label = res.getJSONObject("parameters").getString("app_name");
-            launch(StateProvider.getContext(), app_label);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     public static void launch(final Context context, final String name) {
 
-        AppInfo a = new AppInfo(context);
-        a.LaunchApp(name, new appHandler() {
+        AppInfo.LaunchApp(name, new appHandler() {
             @Override
             void onFailure(String label) {
                 Log.i("OnFailure()", "In Overridden class");
                 super.onFailure(label);
-                ResponseHandler_AI.TextResponse("Error in Processing Your Query...", "Error in Processing Your Query...");
-
-                ResponseHandler_AI.TextResponse("App not found", "App not found");
+                ResponseHandler_AI.TextResponse("Unable to locate the Application " + label, "Error in Processing Your Query...");
+//                ResponseHandler_AI.TextResponse("App not found", "App not found");
             }
 
             @Override
@@ -55,6 +39,18 @@ public class launchApp implements ActionHandler {
             }
         });
 
+    }
+
+    @Override
+    public void performAction(JSONObject res) {
+
+        Log.e("Action Handler", "Application Handler Handler");
+        try {
+            String app_label = res.getJSONObject("parameters").getString("app_name");
+            launch(StateProvider.getContext(), app_label);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -74,7 +74,7 @@ public class Handler_AI {
 
                     JSONObject res = json_obj.getJSONObject("result");
 
-                    ActionHandler handler = ActionHandlerFactory.getActionHandler(res);
+                    ActionHandler handler = ActionHandlerFactory.getHandler(res);
                     handler.performAction(res);
 
                 } catch (Exception e) {
@@ -99,8 +99,8 @@ public class Handler_AI {
     private static void performAction(JSONObject res) {
 
 
-        ActionHandler handler = ActionHandlerFactory.getActionHandler(res);
-        handler.performAction(res);
+//        ActionHandler handler = ActionHandlerFactory.getActionHandler(res);
+        //       handler.performAction(res);
 
 /*            action = res.getString("action");
 

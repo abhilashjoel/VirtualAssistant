@@ -9,6 +9,4 @@ import org.json.JSONObject;
 public interface ActionHandler {
 
     public void performAction(JSONObject res);
-
-    ;
 }
