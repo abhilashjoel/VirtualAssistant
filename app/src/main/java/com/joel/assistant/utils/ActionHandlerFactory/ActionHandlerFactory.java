@@ -72,8 +72,9 @@ public class ActionHandlerFactory {
     private void initHandlers() {
         registerHandler("apps.open", new launchApp());
         registerHandler("smalltalk", new SmallTalkHandler());
-        registerHandler("call.call", new contactsHandler());
-        registerHandler("media.music_play", new mediaHandler());
+        registerHandler("call", new contactsHandler());
+        registerHandler("song.play", new mediaHandler());
+        registerHandler("default", new DefaultHandler());
 
     }
 

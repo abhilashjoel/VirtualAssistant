@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.joel.assistant"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -27,4 +27,5 @@ dependencies {
     compile 'com.android.support:design:23.1.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.google.android.gms:play-services:8.3.0'
+    compile 'com.github.dvdme:ForecastIOLib:1.5.5'
 }

@@ -33,7 +33,8 @@ public class mediaTest {
         }
     }
 
-    public static void listMedia2(Context ct) {
+    public static String listMedia2(String name) {
+        Context ct = StateProvider.getContext();
 
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
@@ -64,7 +65,18 @@ public class mediaTest {
                     + cursor.getString(5));
   */
             Log.wtf("Media ", t);
-        }
 
+            String n = cursor.getString(2).toLowerCase();
+            if (n.contains(name.toLowerCase()) == true) {
+                System.out.println("Found a match 1");
+                return n;
+            }
+            n = cursor.getString(4);
+            if (n.contains(name.toLowerCase()) == true) {
+                System.out.println("Found a match 2");
+                return cursor.getString(2);
+            }
+        }
+        return "";
     }
 }

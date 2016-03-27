@@ -56,11 +56,23 @@ public class contactsHandler implements ActionHandler {
     @Override
     public void performAction(JSONObject j) {
         try {
-            String name = j.getJSONObject("parameters").getString("name_first");
-            String number = getContact(name);
+            JSONObject param = j.getJSONObject("parameters");
+            String number = null, name = "";
+            if (param.has("name")) {
+                name = param.getString("name");
+                ResponseHandler_AI.TextResponse("Calling " + name);
+                number = getContact(name);
+            } else if (param.has("number")) {
+                number = param.getString("number");
+                ResponseHandler_AI.TextResponse("Calling " + number, "Calling");
+            } else {
+                ResponseHandler_AI.TextResponse("I am Sorry. I couldn't understand your query");
+                return;
+            }
 
-            ResponseHandler_AI.TextResponse("Calling " + name);
-
+            if (number.isEmpty() == true) {
+                ResponseHandler_AI.TextResponse("Couldn't find " + name + " in your Contacts");
+            }
             Intent intent = new Intent(Intent.ACTION_CALL, Uri.fromParts("tel", number, null));
             try {
                 StateProvider.getActivity().startActivity(intent);

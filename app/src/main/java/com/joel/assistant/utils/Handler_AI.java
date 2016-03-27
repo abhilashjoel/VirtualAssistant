@@ -23,8 +23,7 @@ import com.joel.assistant.utils.ActionHandlerFactory.ActionHandlerFactory;
 import com.joel.assistant.utils.ActionHandlerFactory.DefaultHandler;
 import com.joel.assistant.utils.ApplicationHandler.launchApp;
 
-//import android.app.
-
+//import com.github.dvdme.ForecastIOLib.
 
 public class Handler_AI {
 
@@ -65,7 +64,11 @@ public class Handler_AI {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                System.out.println(json_obj.toString());
+                try {
+                    System.out.println(json_obj.toString(2));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 try {
                     if (json_obj.has("result") != true) {
                         new DefaultHandler().performAction(json_obj);
@@ -73,8 +76,15 @@ public class Handler_AI {
                     }
 
                     JSONObject res = json_obj.getJSONObject("result");
+                    System.out.println("Result Object");
+                    System.out.println(res.toString());
+                    if (res == null)
+                        System.out.print("HA NULL");
 
                     ActionHandler handler = ActionHandlerFactory.getHandler(res);
+                    System.out.println("---------------->>" + handler.getClass().getCanonicalName());
+                    if (handler == null)
+                        System.out.println("----handler was null");
                     handler.performAction(res);
 
                 } catch (Exception e) {
@@ -133,6 +143,7 @@ public class Handler_AI {
         p.addParam("lang", "en");
         p.addParam("query", s);
         p.addParam("timezone", "Asia/Calcutta");
+        p.addParam("v", "20150910");
         if (session_ID.isEmpty() != true) {
             p.addParam("sessionID", session_ID);
 //            Log.i("Session ID Passed ", session_ID);

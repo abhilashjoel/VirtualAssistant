@@ -6,6 +6,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.joel.assistant.utils.ActionHandlerFactory.ActionHandler;
+import com.joel.assistant.utils.ActionHandlerFactory.ActionHandlerFactory;
 import com.joel.assistant.utils.ResponseHandler_AI;
 import com.joel.assistant.utils.StateProvider;
 
@@ -39,7 +40,21 @@ public class mediaHandler implements ActionHandler {
     @Override
     public void performAction(JSONObject res) {
         try {
-            String song = res.getJSONObject("parameters").getString("q");
+            String song = res.getJSONObject("parameters").getString("song_name");
+            //----------------------------------------------------------------------------
+
+            String song2 = mediaTest.listMedia2(song);
+            if (song2.isEmpty() == true) {
+                ResponseHandler_AI.TextResponse(song + " was not found");
+                Intent intent = new Intent(Intent.ACTION_SEARCH);
+                intent.setPackage("com.google.android.youtube");
+                intent.putExtra("query", song);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                StateProvider.getActivity().startActivity(intent);
+                return;
+            }
+            song = song2;
+            //----------------------------------------------------------------------------
             playSong(song);
         } catch (JSONException e) {
             e.printStackTrace();

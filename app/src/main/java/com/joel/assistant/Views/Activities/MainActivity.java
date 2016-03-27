@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements Frag_Request.Comm
 
         //       ResponseHandler_AI.TextResponse("What can I do for you");
 
+        mediaTest.listMedia2("bloo");
+
     }
 
     private void initTTS() {
