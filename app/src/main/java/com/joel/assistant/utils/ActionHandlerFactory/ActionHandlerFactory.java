@@ -2,6 +2,10 @@ package com.joel.assistant.utils.ActionHandlerFactory;
 
 import com.joel.assistant.utils.ApplicationHandler.launchApp;
 import com.joel.assistant.utils.ContactsHandler.contactsHandler;
+import com.joel.assistant.utils.JokesHandler.chuck;
+import com.joel.assistant.utils.JokesHandler.jokes;
+import com.joel.assistant.utils.JokesHandler.knock;
+import com.joel.assistant.utils.JokesHandler.yomama;
 import com.joel.assistant.utils.MediaHandler.mediaHandler;
 
 import org.json.JSONException;
@@ -75,7 +79,10 @@ public class ActionHandlerFactory {
         registerHandler("call", new contactsHandler());
         registerHandler("song.play", new mediaHandler());
         registerHandler("default", new DefaultHandler());
-
+        registerHandler("joke.yomama", new yomama());
+        registerHandler("joke.chuck", new chuck());
+        registerHandler("knock", new knock());
+        registerHandler("joke", new jokes());
     }
 
     private void registerHandler(String action, ActionHandler handler) {

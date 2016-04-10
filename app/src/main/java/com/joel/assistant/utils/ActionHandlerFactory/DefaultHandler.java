@@ -20,16 +20,19 @@ public class DefaultHandler implements ActionHandler {
         new Throwable().printStackTrace();
         Log.e("Action Handler", "Default Handler Handler");
         String Speech_TAG = "speech";
-        String speech = "Try another query";
+        String speech = "";
         System.out.println(res.toString());
         try {
 
             if (res.has(Speech_TAG) == true)
                 speech = res.getString(Speech_TAG);
-            else if (res.has("metadata") == true) {
+
+            if (speech.isEmpty() == true && res.has("metadata") == true) {
                 if (res.getJSONObject("metadata").has(Speech_TAG) == true)
                     speech = res.getJSONObject("metadata").getString(Speech_TAG);
-            } else if (res.has("fulfillment") == true)
+            }
+
+            if (speech.isEmpty() == true && res.has("fulfillment") == true)
                 if (res.getJSONObject("fulfillment").has(Speech_TAG) == true)
                     speech = res.getJSONObject("fulfillment").getString(Speech_TAG);
 
