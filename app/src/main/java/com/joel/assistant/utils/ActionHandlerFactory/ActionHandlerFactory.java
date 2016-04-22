@@ -7,6 +7,7 @@ import com.joel.assistant.utils.JokesHandler.jokes;
 import com.joel.assistant.utils.JokesHandler.knock;
 import com.joel.assistant.utils.JokesHandler.yomama;
 import com.joel.assistant.utils.MediaHandler.mediaHandler;
+import com.joel.assistant.utils.NewsHandler.newsHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +32,7 @@ public class ActionHandlerFactory {
     public static ActionHandler getHandler(JSONObject j) {
 
         if (j.has("action") == false)
-            return factory.getHandlerInsance("default");
+            return factory.getHandlerInstance("default");
 
         String action = "default";
         try {
@@ -41,9 +42,9 @@ public class ActionHandlerFactory {
         }
 
         if (factory.actionHandlerSet.containsKey(action))
-            return factory.getHandlerInsance(action);
+            return factory.getHandlerInstance(action);
 
-        return factory.getHandlerInsance(action.split("\\.")[0]);
+        return factory.getHandlerInstance(action.split("\\.")[0]);
     }
 
     public static ActionHandler getActionHandler1(JSONObject j) {
@@ -83,6 +84,7 @@ public class ActionHandlerFactory {
         registerHandler("joke.chuck", new chuck());
         registerHandler("knock", new knock());
         registerHandler("joke", new jokes());
+        registerHandler("news", new newsHandler());
     }
 
     private void registerHandler(String action, ActionHandler handler) {
@@ -119,7 +121,11 @@ public class ActionHandlerFactory {
     }
 */
 
-    private ActionHandler getHandlerInsance(String action) {
+    private ActionHandler getHandlerInstance(String action) {
         return actionHandlerSet.get(action, actionHandlerSet.get("default"));
+    }
+
+    public ActionHandler getDefaultHandler() {
+        return getHandlerInstance("default");
     }
 }

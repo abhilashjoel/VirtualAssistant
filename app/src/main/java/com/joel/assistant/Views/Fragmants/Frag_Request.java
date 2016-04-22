@@ -4,9 +4,12 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.joel.assistant.``;
+import com.joel.assistant.utils.SpeechRecognitionListener;
+import com.joel.assistant.utils.StateProvider;
 import com.joel.assistant.utils.TTS;
 import com.joel.assistant.R;
 
@@ -33,6 +38,8 @@ public class Frag_Request extends Fragment {
 
     View root;
     Communicator parentActivity;
+
+    SpeechRecognizer sr;
 
     @Bind(R.id.Request_ip)
     EditText Request_ip;
@@ -90,13 +97,16 @@ public class Frag_Request extends Fragment {
         });
 
 
+        sr = SpeechRecognizer.createSpeechRecognizer(StateProvider.getContext());
+        sr.setRecognitionListener(new SpeechRecognitionListener().setCommunicator(parentActivity));
+
         return root;
     }
 
 
     private void PromptSpeechInput() {
 
-        Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+/*        Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 
@@ -109,6 +119,13 @@ public class Frag_Request extends Fragment {
                     "Error with Recognition",
                     Toast.LENGTH_SHORT).show();
         }
+*/
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "voice.recognition.test");
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5);
+        sr.startListening(intent);
+
     }
 
     @Override

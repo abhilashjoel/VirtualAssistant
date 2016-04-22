@@ -32,7 +32,12 @@ public class jokes implements ActionHandler {
         String Joke = "Q: Why did the blonde get so excited about finishing a jigsaw puzzle in six months? \nA: Because the box said it was for \"2 to 4 years.\"";
         BufferedReader ip = new BufferedReader(new InputStreamReader(ins));
         try {
-            JSONArray jokes = new JSONArray(ip.readLine());
+            String ja = "", t;
+
+            while ((t = ip.readLine()) != null)
+                ja += t;
+
+            JSONArray jokes = new JSONArray(ja);
 
 //            rand.
             int n = rand.nextInt(jokes.length());

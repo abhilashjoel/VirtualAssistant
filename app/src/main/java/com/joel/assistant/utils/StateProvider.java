@@ -13,6 +13,7 @@ public class StateProvider {
 
     static Context context;
     static Activity activity;
+    public static int ResponseFragmentHeight;
 
     public static Context getContext() {
         if (context == null)

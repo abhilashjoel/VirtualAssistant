@@ -1,12 +1,15 @@
 package com.joel.assistant.Views.Activities;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.joel.assistant.R;
 import com.joel.assistant.Views.Fragmants.Frag_Request;
+import com.joel.assistant.Views.Fragmants.Fragment_News;
 import com.joel.assistant.Views.Fragmants.Response_Text;
 import com.joel.assistant.utils.Constants;
 import com.joel.assistant.utils.Handler_AI;
@@ -21,8 +24,11 @@ public class Response_Fragments {
     static FragmentManager fManager;
 
     public static Frag_Request fReq;// = null;
-    public static Response_Text tRes;// = null;
+    public static Response_Text tRes = null;// = null;
+    public static Fragment_News nRes;
 
+    public static Fragment currentFragment;
+    public static String currentFragmentTAG;
 
     public static void setActivity(MainActivity a) {
         activity = a;
@@ -44,41 +50,71 @@ public class Response_Fragments {
         FT_Req.add(R.id.Request_Fragment_main, fReq, Constants.Request);
         FT_Req.commit();
         fReq.setCommunicator(activity);
+        SetTextResponse("Hello");
+//        SetNewsFragment();
 
         Log.e("Fragment Store", "Init Req--->>>");
-
-
-        SetTextResponse().update("Hello! What can I do for you.");
-        TTS.speak("Hello! What can I do for you.");
-
-        Log.e("Fragment Store", "Update Instrn---->>");
-
-
     }
 
 
-    public static Response_Text SetTextResponse() {
+    public static Response_Text SetTextResponse(String data) {
+        String Tag = "Text Response Init";
         if (fManager.findFragmentByTag(Constants.Response_Text) != null) {
             System.out.println("Found Text Fragment..... From Tags...");
+            tRes.update(data);
             return tRes;
         }
+        Log.i(Tag, "Creating new Text Fragment");
         FragmentTransaction FT_Resp = fManager.beginTransaction();
-        if (tRes == null) {
-            Log.i("SetTextRespFrag", "Found Null Reference... Creating a new Fragment");
-            tRes = new Response_Text();
+        tRes = Response_Text.newInstance(data);
+
+        LinearLayout ll = (LinearLayout) activity.findViewById(R.id.Response_Fragment_main);
+        ll.removeAllViews();
+
+        if (currentFragment != null) {
+            Log.i(Tag, "calling Replace...");
+            FT_Resp.replace(R.id.Response_Fragment_main, tRes, Constants.Response_Text);
         } else {
-            System.out.println("Obj Already Exists..... oohhh");
+            Log.i(Tag, "Calling add...");
+            FT_Resp.add(R.id.Response_Fragment_main, tRes, Constants.Response_Text);
         }
 
-        if (FT_Resp.isEmpty())
-            FT_Resp.add(R.id.Response_Fragment_main, tRes, Constants.Response_Text);
-        else
-            FT_Resp.replace(R.id.Response_Fragment_main, tRes, Constants.Response_Text);
         FT_Resp.commit();
+
+        currentFragment = tRes;
+        currentFragmentTAG = Constants.Response_Text;
 
         return tRes;
     }
 
+    public static Fragment_News SetNewsFragment() {
+        String TAG = "News Fragment Init";
+
+        if (fManager.isDestroyed() == true) {
+            System.out.println("Are you Fucking with me...");
+            fManager = activity.getFragmentManager();
+        }
+        FragmentTransaction ft = fManager.beginTransaction();
+
+        Log.i(TAG, "Creating new Fragment");
+        nRes = new Fragment_News();
+
+        LinearLayout ll = (LinearLayout) activity.findViewById(R.id.Response_Fragment_main);
+        ll.removeAllViews();
+
+        if (currentFragment != null) {
+            Log.i(TAG, "Calling Replace...");
+            ft.replace(R.id.Response_Fragment_main, nRes, Constants.Response_News);
+        } else {
+            Log.i(TAG, "Calling Add..");
+            ft.add(R.id.Response_Fragment_main, nRes, Constants.Response_News);
+        }
+
+        ft.commit();
+
+        fManager.executePendingTransactions();
+        return nRes;
+    }
 
     static class NullReferenceException extends Exception {
         NullReferenceException() {
@@ -88,3 +124,45 @@ public class Response_Fragments {
     }
 
 }
+
+/* news Frag--- test
+    public static Fragment_News SetNewsFragment(){
+        String TAG = "News Fragment Init";
+        if(fManager.findFragmentByTag(Constants.Response_News) != null){
+            System.out.println(TAG+"  found News Fragment... From tags,,,");
+            return nRes;
+        }
+        LinearLayout l = (LinearLayout) activity.findViewById(R.id.Request_Fragment_main);
+
+        fManager = activity.getFragmentManager();
+        if(fManager.isDestroyed() == true){
+            System.out.println("Are you Fucking with me...");
+            fManager = activity.getFragmentManager();
+        }
+        FragmentTransaction ft = fManager.beginTransaction();
+
+        if(nRes == null){
+            Log.i(TAG,"Found Null Reference.... Creating a new Object");
+            nRes = new Fragment_News();
+        }else
+            Log.i(TAG,"Found a News Fragment Object");
+
+        if(ft.isEmpty())
+            ft.add(R.id.Response_Fragment_main,nRes,Constants.Response_News);
+        else {
+            System.out.println("cTag : "+currentFragmentTAG+"  Class"+fManager.findFragmentByTag(currentFragmentTAG).getClass().getName());
+            ft.detach(fManager.findFragmentByTag(currentFragmentTAG));
+            ft.remove(fManager.findFragmentByTag(currentFragmentTAG));
+            ft.hide(fManager.findFragmentByTag(currentFragmentTAG));
+            ft.commit();
+            fManager.executePendingTransactions();
+            ft = fManager.beginTransaction();
+            ft.replace(R.id.Response_Fragment_main, nRes, Constants.Response_News);
+        }
+//        ft.attach(nRes);
+        ft.commit();
+        fManager.executePendingTransactions();
+        return nRes;
+    }
+
+ */
