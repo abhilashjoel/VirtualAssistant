@@ -2,12 +2,14 @@ package com.joel.assistant.utils.ActionHandlerFactory;
 
 import com.joel.assistant.utils.ApplicationHandler.launchApp;
 import com.joel.assistant.utils.ContactsHandler.contactsHandler;
+import com.joel.assistant.utils.DuckDuckGo.DuckDuckGo;
 import com.joel.assistant.utils.JokesHandler.chuck;
 import com.joel.assistant.utils.JokesHandler.jokes;
 import com.joel.assistant.utils.JokesHandler.knock;
 import com.joel.assistant.utils.JokesHandler.yomama;
 import com.joel.assistant.utils.MediaHandler.mediaHandler;
 import com.joel.assistant.utils.NewsHandler.newsHandler;
+import com.joel.assistant.utils.WolframAPI.wolframHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,6 +87,9 @@ public class ActionHandlerFactory {
         registerHandler("knock", new knock());
         registerHandler("joke", new jokes());
         registerHandler("news", new newsHandler());
+        registerHandler("knowledge.ddg", new DuckDuckGo());
+        registerHandler("wolfram", new wolframHandler());
+        registerHandler("knowledge", new wolframHandler());
     }
 
     private void registerHandler(String action, ActionHandler handler) {
@@ -125,7 +130,11 @@ public class ActionHandlerFactory {
         return actionHandlerSet.get(action, actionHandlerSet.get("default"));
     }
 
-    public ActionHandler getDefaultHandler() {
-        return getHandlerInstance("default");
+    public static ActionHandler getDefaultHandler() {
+        return factory.getHandlerInstance("default");
+    }
+
+    public static ActionHandler getWolframHandler() {
+        return factory.getHandlerInstance("wolfram");
     }
 }

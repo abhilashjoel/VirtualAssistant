@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.joel.assistant.R;
 import com.joel.assistant.Views.Fragmants.Frag_Request;
 import com.joel.assistant.Views.Fragmants.Fragment_News;
+import com.joel.assistant.Views.Fragmants.NullFragment;
 import com.joel.assistant.Views.Fragmants.Response_Text;
 import com.joel.assistant.utils.Constants;
 import com.joel.assistant.utils.Handler_AI;
@@ -26,6 +27,7 @@ public class Response_Fragments {
     public static Frag_Request fReq;// = null;
     public static Response_Text tRes = null;// = null;
     public static Fragment_News nRes;
+    public static NullFragment nullRes;
 
     public static Fragment currentFragment;
     public static String currentFragmentTAG;
@@ -116,12 +118,35 @@ public class Response_Fragments {
         return nRes;
     }
 
+
+    public static NullFragment SetNullFragment() {
+        String Tag = "Null Fragment init";
+        if (fManager.isDestroyed() == true) {
+            fManager = activity.getFragmentManager();
+        }
+
+        FragmentTransaction ft = fManager.beginTransaction();
+        nullRes = new NullFragment();
+        if (currentFragment != null) {
+            Log.i(Tag, "Calling replace");
+            ft.replace(R.id.Response_Fragment_main, nullRes, Constants.Response_null);
+        } else {
+            Log.i(Tag, "Calling add");
+            ft.add(R.id.Response_Fragment_main, nullRes, Constants.Response_null);
+        }
+
+        ft.commit();
+        fManager.executePendingTransactions();
+        return nullRes;
+    }
+
     static class NullReferenceException extends Exception {
         NullReferenceException() {
             super("Activity reference was NULL");
         }
 
     }
+
 
 }
 

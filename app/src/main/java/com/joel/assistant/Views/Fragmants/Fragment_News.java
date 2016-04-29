@@ -21,7 +21,7 @@ import com.joel.assistant.R;
 import com.joel.assistant.utils.NewsHandler.Feeds;
 import com.joel.assistant.utils.NewsHandler.NewsFeedsHandler;
 import com.joel.assistant.utils.NewsHandler.NewsFragmentGestureListener;
-import com.joel.assistant.utils.NewsHandler.customListener;
+//import com.joel.assistant.utils.NewsHandler.customListener;
 import com.joel.assistant.utils.StateProvider;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;

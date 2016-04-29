@@ -58,8 +58,13 @@ public class AsyncHTTPGet extends AsyncTask<param, Void, String> {
         HashMap.Entry<String, String> item;
         HttpUrl.Builder urlX = new HttpUrl.Builder()
                 .scheme(pa.getProtocol())
-                .host(pa.getHost())
-                .addPathSegment(pa.URLSegment);
+                .host(pa.getHost());
+        String[] Urlsegments = pa.getURLSegment().split("/");
+        for (String seg : Urlsegments) {
+            if (seg.isEmpty() != true)
+                urlX.addPathSegment(seg);
+        }
+//                .addPathSegment(pa.URLSegment);
 
         while (pi.hasNext()) {
             item = (HashMap.Entry) pi.next();
@@ -97,6 +102,8 @@ public class AsyncHTTPGet extends AsyncTask<param, Void, String> {
     @Override
     protected void onPostExecute(String body) {
         super.onPostExecute(body);
+
+        System.out.println("Requested url : " + req.url().url());
 
         if (res.isSuccessful() == false) {
             jHandler.onFailure(res.code());

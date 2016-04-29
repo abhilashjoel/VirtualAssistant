@@ -16,4 +16,10 @@ public class AsyncHTTP {
         AsyncHTTPGet g = new AsyncHTTPGet(j);
         g.execute(p);
     }
+
+    public static void getXML(param p, XMLResponseHandler xhr) {
+
+        AsyncHTTP_XML asyncClient = new AsyncHTTP_XML(xhr);
+        asyncClient.execute(p);
+    }
 }

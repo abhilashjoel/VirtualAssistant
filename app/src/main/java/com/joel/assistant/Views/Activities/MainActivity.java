@@ -2,10 +2,13 @@ package com.joel.assistant.Views.Activities;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,11 +23,20 @@ import com.joel.assistant.utils.StateProvider;
 import com.joel.assistant.utils.TTS;
 import com.joel.assistant.utils.ContactsHandler.contactsHandler;
 import com.joel.assistant.utils.MediaHandler.mediaTest;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.LoadedFrom;
+import com.nostra13.universalimageloader.core.display.BitmapDisplayer;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 
 public class MainActivity extends AppCompatActivity implements Frag_Request.Communicator {
 
     TextToSpeech tts;
     FragmentManager m;
+
+    public static String Tag = "Main Activity";
 
     @Override
     protected void onPause() {
@@ -84,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements Frag_Request.Comm
     @Override
     protected void onResume() {
         super.onResume();
+        initUIL();
     }
 
     @Override
@@ -112,6 +125,28 @@ public class MainActivity extends AppCompatActivity implements Frag_Request.Comm
         //       ResponseHandler_AI.TextResponse("What can I do for you");
 
 
+    }
+
+    private void initUIL() {
+        Log.i(Tag, "initUIL()...");
+        BitmapDisplayer bd = new BitmapDisplayer() {
+            @Override
+            public void display(Bitmap bitmap, ImageAware imageAware, LoadedFrom loadedFrom) {
+                DisplayMetrics dMetrics = new DisplayMetrics();
+                StateProvider.getActivity().getWindowManager().getDefaultDisplay().getMetrics(dMetrics);
+//                bitmap.setWidth(dMetrics.widthPixels);
+            }
+        };
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
+//                .displayer(bd)
+                .build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(StateProvider.getActivity())
+                .defaultDisplayImageOptions(options)
+                .build();
+        ImageLoader.getInstance().init(config);
     }
 
     private void initTTS() {

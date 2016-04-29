@@ -15,13 +15,11 @@ import org.json.JSONObject;
 import okhttp3.OkHttpClient;
 
 import com.joel.assistant.Network.AsyncHTTP;
-import com.joel.assistant.Network.AsyncHTTPGet;
 import com.joel.assistant.Network.JsonResponseHandler;
 import com.joel.assistant.Network.param;
 import com.joel.assistant.utils.ActionHandlerFactory.ActionHandler;
 import com.joel.assistant.utils.ActionHandlerFactory.ActionHandlerFactory;
 import com.joel.assistant.utils.ActionHandlerFactory.DefaultHandler;
-import com.joel.assistant.utils.ApplicationHandler.launchApp;
 
 //import com.github.dvdme.ForecastIOLib.
 
@@ -54,28 +52,28 @@ public class Handler_AI {
 
         AsyncHTTP.get(req_p, new JsonResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, JSONObject json_obj) {
-                super.onSuccess(statusCode, json_obj);
+            public void onSuccess(int statusCode, JSONObject res_json) {
+                super.onSuccess(statusCode, res_json);
 
                 String text = "This is beyond me..";
                 try {
-                    session_ID = json_obj.getString("id");
+                    session_ID = res_json.getString("id");
                     Log.i("Session ID from AI  ", session_ID);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 try {
-                    System.out.println(json_obj.toString(2));
+                    System.out.println(res_json.toString(2));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 try {
-                    if (json_obj.has("result") != true) {
-                        new DefaultHandler().performAction(json_obj);
+                    if (res_json.has("result") != true) {
+                        new DefaultHandler().performAction(res_json);
                         return;
                     }
 
-                    JSONObject res = json_obj.getJSONObject("result");
+                    JSONObject res = res_json.getJSONObject("result");
                     System.out.println("Result Object");
                     System.out.println(res.toString());
                     if (res == null)
@@ -88,7 +86,7 @@ public class Handler_AI {
                     handler.performAction(res);
 
                 } catch (Exception e) {
-                    new DefaultHandler().performAction(json_obj);
+                    new DefaultHandler().performAction(res_json);
                     e.printStackTrace();
                 }
 
