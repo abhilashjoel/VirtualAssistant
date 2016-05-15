@@ -9,12 +9,15 @@ import android.widget.TextView;
 
 import com.joel.assistant.R;
 import com.joel.assistant.Views.Fragmants.Frag_Request;
+import com.joel.assistant.Views.Fragmants.Fragment_Maps;
 import com.joel.assistant.Views.Fragmants.Fragment_News;
 import com.joel.assistant.Views.Fragmants.NullFragment;
 import com.joel.assistant.Views.Fragmants.Response_Text;
 import com.joel.assistant.utils.Constants;
 import com.joel.assistant.utils.Handler_AI;
 import com.joel.assistant.utils.TTS;
+
+import com.google.android.gms.maps.SupportMapFragment;
 
 /**
  * Created by Joel on 08-03-2016.
@@ -28,6 +31,7 @@ public class Response_Fragments {
     public static Response_Text tRes = null;// = null;
     public static Fragment_News nRes;
     public static NullFragment nullRes;
+    public static Fragment_Maps fMaps;
 
     public static Fragment currentFragment;
     public static String currentFragmentTAG;
@@ -111,6 +115,8 @@ public class Response_Fragments {
             Log.i(TAG, "Calling Add..");
             ft.add(R.id.Response_Fragment_main, nRes, Constants.Response_News);
         }
+        currentFragment = nRes;
+        currentFragmentTAG = Constants.Response_News;
 
         ft.commit();
 
@@ -137,6 +143,8 @@ public class Response_Fragments {
 
         ft.commit();
         fManager.executePendingTransactions();
+        currentFragment = nullRes;
+        currentFragmentTAG = Constants.Response_null;
         return nullRes;
     }
 
@@ -145,6 +153,45 @@ public class Response_Fragments {
             super("Activity reference was NULL");
         }
 
+    }
+
+    public static Fragment_Maps setMapFragment2() {
+
+        SupportMapFragment mf = new SupportMapFragment();
+
+        FragmentTransaction ft = fManager.beginTransaction();
+//        ft.replace(R.id.Response_Fragment_main, mf,Constants.Response_Maps);
+//        currentFragment = mf.;
+
+        return null;
+    }
+
+    public static Fragment_Maps setMapFragment(Fragment_Maps.mapsUpdater arg) {
+
+        String Tag = "Map Fragment init";
+        if (fManager.isDestroyed() == true) {
+            fManager = activity.getFragmentManager();
+        }
+
+        FragmentTransaction ft = fManager.beginTransaction();
+        fMaps = Fragment_Maps.getInstance(arg);
+
+
+        if (currentFragment != null) {
+            Log.i(Tag, "Calling replace");
+            ft.replace(R.id.Response_Fragment_main, fMaps, Constants.Response_Maps);
+        } else {
+            Log.i(Tag, "Calling add");
+            ft.add(R.id.Response_Fragment_main, fMaps, Constants.Response_Maps);
+        }
+
+        ft.commit();
+//        fManager.executePendingTransactions();
+
+        currentFragment = fMaps;
+        currentFragmentTAG = Constants.Response_Maps;
+
+        return fMaps;
     }
 
 

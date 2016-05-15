@@ -3,13 +3,19 @@ package com.joel.assistant.utils.ActionHandlerFactory;
 import com.joel.assistant.utils.ApplicationHandler.launchApp;
 import com.joel.assistant.utils.ContactsHandler.contactsHandler;
 import com.joel.assistant.utils.DuckDuckGo.DuckDuckGo;
+import com.joel.assistant.utils.GooglePlacesAPI.NavigationIntentHandler;
+import com.joel.assistant.utils.GooglePlacesAPI.SearchIntentHandler;
 import com.joel.assistant.utils.JokesHandler.chuck;
 import com.joel.assistant.utils.JokesHandler.jokes;
 import com.joel.assistant.utils.JokesHandler.knock;
 import com.joel.assistant.utils.JokesHandler.yomama;
+import com.joel.assistant.utils.LocationHandler.LocationHandler;
 import com.joel.assistant.utils.MediaHandler.mediaHandler;
 import com.joel.assistant.utils.NewsHandler.newsHandler;
+import com.joel.assistant.utils.WolframAPI.currentWeather;
 import com.joel.assistant.utils.WolframAPI.wolframHandler;
+import com.joel.assistant.utils.events.alarmHandler;
+import com.joel.assistant.utils.events.reminderHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,6 +96,12 @@ public class ActionHandlerFactory {
         registerHandler("knowledge.ddg", new DuckDuckGo());
         registerHandler("wolfram", new wolframHandler());
         registerHandler("knowledge", new wolframHandler());
+        registerHandler("maps.userlocation", new LocationHandler());
+        registerHandler("maps.search", new SearchIntentHandler());
+        registerHandler("maps.navigation", new NavigationIntentHandler());
+        registerHandler("weather.current", currentWeather.getInstance());
+        registerHandler("alarm", alarmHandler.getInstance());
+        registerHandler("reminder", reminderHandler.getInstance());
     }
 
     private void registerHandler(String action, ActionHandler handler) {

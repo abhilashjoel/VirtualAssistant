@@ -2,6 +2,7 @@ package com.joel.assistant.Views.Activities;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
@@ -96,12 +97,16 @@ public class MainActivity extends AppCompatActivity implements Frag_Request.Comm
     @Override
     protected void onResume() {
         super.onResume();
+        StateProvider.updateLocation();
         initUIL();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent i = new Intent(this, com.joel.assistant.Views.MapsTest.class);
+//        startActivity(i);
         setContentView(R.layout.activity_main);
 
 //        getActionBar().hide();

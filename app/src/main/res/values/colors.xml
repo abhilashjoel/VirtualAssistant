@@ -11,5 +11,6 @@
     <color name="color_primary_blue_dark">#1976d2</color>
     <color name="color_accent_pink">#ff4081</color>
     <color name="color_shadow">#44000000</color>
+    <color name="color_absolute_white">#ffffffff</color>
 
 </resources>

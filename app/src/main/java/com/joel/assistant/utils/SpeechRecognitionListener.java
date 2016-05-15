@@ -21,14 +21,11 @@ public class SpeechRecognitionListener implements RecognitionListener {
 
     @Override
     public void onReadyForSpeech(Bundle params) {
-
+        Toast.makeText(StateProvider.getActivity(), "Listening..", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onBeginningOfSpeech() {
-
-        Toast.makeText(StateProvider.getActivity(), "Listening..", Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
