@@ -194,6 +194,16 @@ public class Response_Fragments {
         return fMaps;
     }
 
+    public static void setQueryString(String q){
+
+        String Tag = "Request Fragment handler";
+        if(fReq == null){
+            Log.e(Tag, "Fragment Instance was null...");
+            return;
+        }
+
+        fReq.setQuery(q);
+    }
 
 }
 

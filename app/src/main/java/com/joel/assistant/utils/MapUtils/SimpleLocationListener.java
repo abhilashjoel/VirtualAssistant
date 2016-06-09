@@ -41,9 +41,9 @@ public abstract class SimpleLocationListener implements LocationListener {
 
     public void removeListener() {
         LocationManager lm = (LocationManager) StateProvider.getContext().getSystemService(Context.LOCATION_SERVICE);
-        if (StateProvider.getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && StateProvider.getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
+//        if (StateProvider.getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && StateProvider.getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            return;
+//        }
         lm.removeUpdates(this);
     }
 }

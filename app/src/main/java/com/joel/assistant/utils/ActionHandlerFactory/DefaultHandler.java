@@ -3,6 +3,7 @@ package com.joel.assistant.utils.ActionHandlerFactory;
 import android.util.Log;
 
 import com.joel.assistant.utils.Handler_AI;
+import com.joel.assistant.utils.RandomGenerator;
 import com.joel.assistant.utils.ResponseHandler_AI;
 
 import java.lang.Throwable;
@@ -15,7 +16,6 @@ import org.json.JSONObject;
 public class DefaultHandler implements ActionHandler {
     @Override
     public void performAction(JSONObject res) {
-//        new Exception().printStackTrace();
 
         new Throwable().printStackTrace();
         Log.e("Action Handler", "Default Handler Handler");
@@ -40,8 +40,14 @@ public class DefaultHandler implements ActionHandler {
             e.printStackTrace();
         }
 
+        if(speech.isEmpty() == true)
+            speech = Response_Stubs[RandomGenerator.get(1)];
         System.out.print(speech);
 
         ResponseHandler_AI.TextResponse(speech);
     }
+
+    public static String[] Response_Stubs = new String[]{
+            "Sorry, I don't know how to respond to it.",
+            "I will learn that now."};
 }

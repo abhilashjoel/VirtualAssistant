@@ -2,6 +2,7 @@ package com.joel.assistant.utils.ActionHandlerFactory;
 
 import com.joel.assistant.utils.ApplicationHandler.launchApp;
 import com.joel.assistant.utils.ContactsHandler.contactsHandler;
+import com.joel.assistant.utils.ContactsHandler.smsHandler;
 import com.joel.assistant.utils.DuckDuckGo.DuckDuckGo;
 import com.joel.assistant.utils.GooglePlacesAPI.NavigationIntentHandler;
 import com.joel.assistant.utils.GooglePlacesAPI.SearchIntentHandler;
@@ -102,6 +103,8 @@ public class ActionHandlerFactory {
         registerHandler("weather.current", currentWeather.getInstance());
         registerHandler("alarm", alarmHandler.getInstance());
         registerHandler("reminder", reminderHandler.getInstance());
+        registerHandler("user", new sPrefsStore());
+        registerHandler("text.send",new smsHandler());
     }
 
     private void registerHandler(String action, ActionHandler handler) {

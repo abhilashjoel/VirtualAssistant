@@ -6,6 +6,7 @@ import android.speech.SpeechRecognizer;
 import android.widget.Toast;
 
 import com.joel.assistant.Views.Activities.MainActivity;
+import com.joel.assistant.Views.Activities.Response_Fragments;
 import com.joel.assistant.Views.Fragmants.Frag_Request;
 
 import java.util.ArrayList;
@@ -65,6 +66,8 @@ public class SpeechRecognitionListener implements RecognitionListener {
         Iterator<String> i = res.iterator();
         while (i.hasNext())
             System.out.println("Contents :  " + i.next());
+
+        Response_Fragments.setQueryString(res.get(0));
         communicator.Process(res.get(0));
 
     }

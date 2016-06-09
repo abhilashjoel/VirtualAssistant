@@ -103,6 +103,9 @@ public class Frag_Request extends Fragment {
         return root;
     }
 
+    public void setQuery(String q){
+        Request_ip.setText(q);
+    }
 
     private void PromptSpeechInput() {
 

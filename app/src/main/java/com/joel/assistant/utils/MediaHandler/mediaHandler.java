@@ -43,7 +43,12 @@ public class mediaHandler implements ActionHandler {
             String song = res.getJSONObject("parameters").getString("song_name");
             //----------------------------------------------------------------------------
 
-            String song2 = mediaTest.listMedia2(song);
+            String song2;
+            if(song.isEmpty() == true)
+                song2 = mediaTest.getRandSong();
+            else
+                song2 = mediaTest.listMedia2(song);
+
             if (song2.isEmpty() == true) {
                 ResponseHandler_AI.TextResponse(song + " was not found");
                 Intent intent = new Intent(Intent.ACTION_SEARCH);

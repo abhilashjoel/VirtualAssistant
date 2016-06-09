@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.joel.assistant.utils.RandomGenerator;
 import com.joel.assistant.utils.StateProvider;
 
 import java.util.ArrayList;
@@ -16,6 +17,9 @@ import java.util.List;
  * Created by Joel on 17-03-2016.
  */
 public class mediaTest {
+
+    public static List<String> songs = initSongs();
+    public static String Tag = "mediaHandler.core";
 
     public static void listMedia(Context c) {
 
@@ -78,5 +82,45 @@ public class mediaTest {
             }
         }
         return "";
+    }
+
+
+    public static String getRandSong() {
+
+        if (songs == null)
+            songs = initSongs();
+
+        return songs.get(RandomGenerator.get(songs.size()));
+    }
+
+    public static List<String> initSongs() {
+
+        List<String> songs = new ArrayList<String>();
+
+        Context ct = StateProvider.getContext();
+        String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
+        String[] projection = {
+                MediaStore.Audio.Media._ID,
+                MediaStore.Audio.Media.ARTIST,
+                MediaStore.Audio.Media.TITLE,
+                MediaStore.Audio.Media.DATA,
+                MediaStore.Audio.Media.DISPLAY_NAME,
+                MediaStore.Audio.Media.DURATION
+        };
+        Cursor cursor = StateProvider.getActivity().managedQuery(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                projection,
+                selection,
+                null,
+                null);
+        String t;
+        while (cursor.moveToNext()) {
+            t = (cursor.getString(2) + "|\t|"
+                    + cursor.getString(4) + "||");
+            String n = cursor.getString(2);
+            songs.add(n);
+        }
+        Log.i(Tag, "Total songs scanned : " + songs.size());
+        return songs;
     }
 }
